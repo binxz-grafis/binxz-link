@@ -15,23 +15,24 @@ export default function QRCodeGenerator({ url }: QRCodeGeneratorProps) {
     const canvas = qrRef.current?.querySelector('canvas');
     if (!canvas) return;
 
+    // QR canvas size
+    const size = canvas.width;
     const finalCanvas = document.createElement('canvas');
     const ctx = finalCanvas.getContext('2d');
-    const size = canvas.width + 40;
-
+    
+    // Set size to match original QR
     finalCanvas.width = size;
     finalCanvas.height = size;
 
     if (ctx) {
+      // White Background
       ctx.fillStyle = '#ffffff';
-      if (ctx.roundRect) {
-        ctx.roundRect(0, 0, size, size, 20);
-      } else {
-        ctx.rect(0, 0, size, size);
-      }
-      ctx.fill();
-      ctx.drawImage(canvas, 20, 20);
+      ctx.fillRect(0, 0, size, size);
+      
+      // Draw original QR code
+      ctx.drawImage(canvas, 0, 0);
 
+      // Download
       const link = document.createElement('a');
       link.download = `binxz-qr-${Date.now()}.png`;
       link.href = finalCanvas.toDataURL('image/png');
@@ -51,22 +52,18 @@ export default function QRCodeGenerator({ url }: QRCodeGeneratorProps) {
           level="H"
           marginSize={1}
           imageSettings={{
-            src: '/qr-logo.png',
-            height: 40,
-            width: 40,
+            src: '/qr-logo.png', // Logo hitam
+            height: 48,
+            width: 48,
             excavate: true,
           }}
         />
-        {/* Bulatan putih bersih di tengah agar logo tidak gepeng */}
-        <div className="absolute w-12 h-12 bg-white rounded-full pointer-events-none flex items-center justify-center">
-             <img src="/qr-logo.png" className="w-9 h-9 object-contain" alt="QR Logo" />
-        </div>
       </div>
 
       <div className="flex-1 text-center sm:text-left">
         <h4 className="font-bold text-white text-base">QR Code Logo Binxz</h4>
         <p className="text-sm text-gray-400 mt-1 mb-4">
-          QR Code HD dengan bulatan putih dan logo Binxz Grafis.
+          QR Code HD dengan logo Binxz Grafis hitam di tengah.
         </p>
         <button
           onClick={downloadQR}

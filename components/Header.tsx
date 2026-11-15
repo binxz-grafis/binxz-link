@@ -1,17 +1,16 @@
 import React from 'react';
-import Image from 'next/image';
 
 export default function Header() {
   return (
     <header className="w-full max-w-5xl mx-auto px-6 py-6 flex justify-between items-center border-b border-white/10">
       <div className="flex items-center gap-3">
-        <div className="bg-white p-1 rounded-md shadow-lg shadow-pink-500/10">
-          {/* Logo Binxz */}
+        <div className="bg-transparent p-0 rounded-md">
+          {/* Logo Binxz tanpa background putih */}
           <img 
-            src="/logo.png" 
+            src="/brand-logo.png" 
             alt="Binxz Logo" 
-            className="h-8 object-contain" 
-            style={{ height: '32px', width: 'auto', maxHeight: '32px', objectFit: 'contain' }}
+            className="h-10 object-contain" 
+            style={{ height: '40px', width: 'auto', maxHeight: '40px', objectFit: 'contain' }}
           />
         </div>
         <span className="font-extrabold text-lg tracking-wider text-white">
