@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+build
+.env.local
+.env.production.local
+.env.test.local
+.env.development.local
+.superpowers
+.DS_Store
