@@ -15,7 +15,6 @@ export default function QRCodeGenerator({ url }: QRCodeGeneratorProps) {
     const canvas = qrRef.current?.querySelector('canvas');
     if (!canvas) return;
 
-    // Create a new canvas to add a white border and nice background
     const finalCanvas = document.createElement('canvas');
     const ctx = finalCanvas.getContext('2d');
     const size = canvas.width + 40;
@@ -24,15 +23,15 @@ export default function QRCodeGenerator({ url }: QRCodeGeneratorProps) {
     finalCanvas.height = size;
 
     if (ctx) {
-      // Draw white background
       ctx.fillStyle = '#ffffff';
-      ctx.roundRect ? ctx.roundRect(0, 0, size, size, 20) : ctx.rect(0, 0, size, size);
+      if (ctx.roundRect) {
+        ctx.roundRect(0, 0, size, size, 20);
+      } else {
+        ctx.rect(0, 0, size, size);
+      }
       ctx.fill();
-
-      // Draw original QR code centered
       ctx.drawImage(canvas, 20, 20);
 
-      // Download
       const link = document.createElement('a');
       link.download = `binxz-qr-${Date.now()}.png`;
       link.href = finalCanvas.toDataURL('image/png');
@@ -48,26 +47,26 @@ export default function QRCodeGenerator({ url }: QRCodeGeneratorProps) {
       >
         <QRCodeCanvas
           value={url}
-          size={140}
+          size={200}
           level="H"
           marginSize={1}
           imageSettings={{
-            src: '/logo.png',
-            x: undefined,
-            y: undefined,
-            height: 36,
-            width: 36,
+            src: '/qr-logo.png',
+            height: 40,
+            width: 40,
             excavate: true,
           }}
         />
-        {/* White circle background behind center logo to match design */}
-        <div className="absolute w-10 h-10 rounded-full border-2 border-white pointer-events-none" />
+        {/* Bulatan putih bersih di tengah agar logo tidak gepeng */}
+        <div className="absolute w-12 h-12 bg-white rounded-full pointer-events-none flex items-center justify-center">
+             <img src="/qr-logo.png" className="w-9 h-9 object-contain" alt="QR Logo" />
+        </div>
       </div>
 
       <div className="flex-1 text-center sm:text-left">
-        <h4 className="font-bold text-white text-base">QR Code Watermark Binxz</h4>
+        <h4 className="font-bold text-white text-base">QR Code Logo Binxz</h4>
         <p className="text-sm text-gray-400 mt-1 mb-4">
-          QR Code dengan logo Binxz Grafis di tengah. Tetap responsif dan cepat discan.
+          QR Code HD dengan bulatan putih dan logo Binxz Grafis.
         </p>
         <button
           onClick={downloadQR}
