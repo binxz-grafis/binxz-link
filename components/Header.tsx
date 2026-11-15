@@ -7,7 +7,12 @@ export default function Header() {
       <div className="flex items-center gap-3">
         <div className="bg-white p-1 rounded-md shadow-lg shadow-pink-500/10">
           {/* Logo Binxz */}
-          <img src="/logo.png" alt="Binxz Logo" className="h-8 object-contain" />
+          <img 
+            src="/logo.png" 
+            alt="Binxz Logo" 
+            className="h-8 object-contain" 
+            style={{ height: '32px', width: 'auto', maxHeight: '32px', objectFit: 'contain' }}
+          />
         </div>
         <span className="font-extrabold text-lg tracking-wider text-white">
           BINXZ<span className="text-[#a3e635]">.GRAFIS</span>
