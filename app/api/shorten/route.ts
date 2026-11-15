@@ -26,29 +26,51 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Format URL tidak valid' }, { status: 400 });
     }
 
-    // Format slug with mandatory watermark prefix: binxz-grafis-
+    // Format slug base
     let slugSuffix = customSuffix ? customSuffix.trim().toLowerCase().replace(/[^a-z0-9-_]/g, '') : '';
     if (!slugSuffix) {
       slugSuffix = generateRandomSuffix();
     }
 
-    const slug = `binxz-grafis-${slugSuffix}`;
+    let baseSlug = `binxz-grafis-${slugSuffix}`;
+    let finalSlug = baseSlug;
+    let counter = 1;
+
+    // Check availability and auto-increment if exists (e.g. porto, porto-2, porto-3)
+    while (true) {
+      const { data: existing } = await supabase
+        .from('links')
+        .select('slug, original_url')
+        .eq('slug', finalSlug)
+        .maybeSingle();
+
+      if (!existing) {
+        // Slug is available!
+        break;
+      }
+
+      // If the same link already has this slug, reuse it
+      if (existing.original_url === url) {
+        return NextResponse.json({
+          success: true,
+          slug: existing.slug,
+          original_url: existing.original_url,
+        });
+      }
+
+      // Otherwise increment suffix
+      counter++;
+      finalSlug = `${baseSlug}-${counter}`;
+    }
 
     // Insert into Supabase
     const { data, error } = await supabase
       .from('links')
-      .insert([{ slug, original_url: url }])
+      .insert([{ slug: finalSlug, original_url: url }])
       .select()
       .single();
 
     if (error) {
-      // If slug collision, return error
-      if (error.code === '23505') {
-        return NextResponse.json(
-          { error: 'Nama custom link sudah digunakan, silakan gunakan yang lain' },
-          { status: 409 }
-        );
-      }
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
