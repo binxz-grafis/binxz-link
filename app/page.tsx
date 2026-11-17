@@ -63,7 +63,7 @@ export default function Home() {
         <main className="max-w-3xl mx-auto px-6 py-16 text-center">
           {/* Tagline */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-pink-500/30 bg-pink-500/10 text-pink-400 text-xs font-semibold mb-6">
-            <Sparkles size={14} /> Official Watermark Binxz Grafis
+            <Sparkles size={14} /> Official Link Shortener by Binxz Grafis
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-black tracking-tight mb-4">
@@ -73,8 +73,7 @@ export default function Home() {
             </span>
           </h1>
           <p className="text-gray-400 text-base sm:text-lg max-w-xl mx-auto mb-10 font-light">
-            Tempel link Drive atau website, hasilkan URL custom ber-watermark{' '}
-            <strong className="text-pink-400 font-semibold">binxz-grafis</strong> dan QR Code dengan logo resmi.
+            Tempel link Drive atau website, hasilkan URL custom dan QR Code Ultra HD dengan logo resmi.
           </p>
 
           {/* Shorten Input Card */}
@@ -101,20 +100,20 @@ export default function Home() {
             {/* Custom Suffix Option */}
             <div>
               <label className="text-xs uppercase font-bold tracking-wider text-gray-400 mb-1.5 block">
-                Kustom Teks Belakang (Opsional)
+                Nama Link Custom (Opsional)
               </label>
               <div className="flex items-center bg-black/40 border border-white/15 rounded-xl overflow-hidden focus-within:border-pink-500 transition">
-                <span className="bg-white/5 text-pink-400 font-bold px-3 py-3 text-xs sm:text-sm border-r border-white/10 select-none">
-                  binxz-grafis-
-                </span>
                 <input
                   type="text"
-                  placeholder="porto-desain (opsional)"
+                  placeholder="contoh: porto-grafis"
                   value={customSuffix}
                   onChange={(e) => setCustomSuffix(e.target.value)}
-                  className="w-full bg-transparent px-3 py-3 text-white placeholder-gray-500 text-sm focus:outline-none"
+                  className="w-full bg-transparent px-4 py-3 text-white placeholder-gray-500 text-sm focus:outline-none"
                 />
               </div>
+              <p className="text-[10px] text-gray-500 mt-1 px-1">
+                Link akan menjadi: binxzgrafis-link.vercel.app/<strong>{customSuffix || 'acak'}</strong>
+              </p>
             </div>
 
             {error && (

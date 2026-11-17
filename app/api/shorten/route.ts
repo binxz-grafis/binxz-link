@@ -26,14 +26,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Format URL tidak valid' }, { status: 400 });
     }
 
-    // Format slug base
-    let slugSuffix = customSuffix ? customSuffix.trim().toLowerCase().replace(/[^a-z0-9-_]/g, '') : '';
-    if (!slugSuffix) {
-      slugSuffix = generateRandomSuffix();
+    // Format slug directly from customSuffix or random
+    let slug = customSuffix ? customSuffix.trim().toLowerCase().replace(/[^a-z0-9-_]/g, '') : '';
+    if (!slug) {
+      slug = generateRandomSuffix();
     }
 
-    let baseSlug = `binxz-grafis-${slugSuffix}`;
-    let finalSlug = baseSlug;
+    let finalSlug = slug;
     let counter = 1;
 
     // Check availability and auto-increment if exists (e.g. porto, porto-2, porto-3)
@@ -60,7 +59,7 @@ export async function POST(req: NextRequest) {
 
       // Otherwise increment suffix
       counter++;
-      finalSlug = `${baseSlug}-${counter}`;
+      finalSlug = `${slug}-${counter}`;
     }
 
     // Insert into Supabase
